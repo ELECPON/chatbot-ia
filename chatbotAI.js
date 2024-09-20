@@ -1,6 +1,7 @@
 const { NlpManager } = require('node-nlp');
 const manager = new NlpManager({ languages: ['es'], forceNER: true });
 const { default_dataset } = require('./restaurar.js');
+
 const entrenar = async(mensaje, respuesta) => {
     if(mensaje != '' && respuesta != ''){
         manager.addDocument('es', mensaje, 'ninguno');

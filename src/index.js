@@ -1,6 +1,14 @@
-const recognition = new webkitSpeechRecognition() || new SpeechRecognition();
+        const recognition = new webkitSpeechRecognition() || new SpeechRecognition();
         let id_field;
 
+        let interactuar = document.getElementById("interactuar"); 
+        let mensaje = document.getElementById("mensaje");
+        let respuesta = document.getElementById("respuesta");
+        let mic = document.getElementById("mic");
+        let enviar = document.getElementById("enviar");
+        let entrenar = document.getElementById("entrenar");
+        let restaurar = document.getElementById("restaurar");
+        
         recognition.continuous = true;
         recognition.lang = 'es-ES';
         recognition.interimResult = false;
@@ -13,30 +21,27 @@ const recognition = new webkitSpeechRecognition() || new SpeechRecognition();
             recognition.abort();
         }
 
-        document.getElementById("mic")
-        .addEventListener("click", () =>{
+        
+        mic.addEventListener("click", () =>{
             start();
         })
 
-        document.getElementById("enviar")
-        .addEventListener("click", () => {
+        enviar.addEventListener("click", () => {
             let objeto = {
-                mensaje: document.getElementById('interactuar').value
+                mensaje: interactuar.value
             }
             query('http://localhost:3000/enviar', objeto);
         })
 
-        document.getElementById("entrenar")
-        .addEventListener("click", () => {
+        entrenar.addEventListener("click", () => {
             let objeto = {
-                mensaje: document.getElementById('mensaje').value,
-                respuesta: document.getElementById('respuesta').value
+                mensaje: mensaje.value,
+                respuesta: respuesta.value
             }
             query('http://localhost:3000/entrenar', objeto);
         })
 
-        document.getElementById("restaurar")
-        .addEventListener("click", () => {
+        restaurar.addEventListener("click", () => {
             query('http://localhost:3000/restaurar', {});
         })
 
@@ -58,14 +63,24 @@ const recognition = new webkitSpeechRecognition() || new SpeechRecognition();
 
         recognition.onresult = (event) => {
             const texto = event.results[event.results.length - 1][0].transcript;
-            document.getElementById(id_field).value = texto;
-            document.getElementById('enviar').click();
+            let item = document.getElementById(id_field);
+            item.value = texto;
+            if(id_field == "interactuar" && item.value != '')
+                document.getElementById('enviar').click();
         }
+
+
 
         document.querySelectorAll('input[type="text"]')
         .forEach(e =>{
             e.addEventListener("click", e => {
                id_field = e.target.id;
+               if(id_field == "mensaje" || id_field == "respuesta"){
+                    interactuar.value = ''; 
+               }else{
+                    mensaje.value = '';
+                    respuesta.value = '';
+               }
             })
         })
 
