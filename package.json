@@ -1,0 +1,16 @@
+{
+  "name": "chatbot-ia",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.21.0",
+    "node-nlp": "^4.27.0"
+  }
+}
